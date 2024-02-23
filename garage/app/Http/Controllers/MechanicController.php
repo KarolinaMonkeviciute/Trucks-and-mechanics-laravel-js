@@ -130,6 +130,53 @@ class MechanicController extends Controller
     {
         $mechanic->update($request->all());
 
+        $mechanicPhotosIds = $mechanic->photos->pluck('id')->toArray();
+        $photosIds = $request->photo_id ? $request->photo_id : [];
+        $toDelete = array_diff($mechanicPhotosIds, $photosIds);
+
+        $photoFilesIndexes = array_keys($request->photos ?? []);
+        $photoIdsIndexes = array_keys($request->photo_id ?? []);
+        $toOverWrite = array_intersect($photoFilesIndexes, $photoIdsIndexes);
+
+        $newPhotos = array_diff($photoFilesIndexes, $photoIdsIndexes);
+
+        if($toDelete){
+            foreach($toDelete as $photoId){
+                $photo = Photo::find($photoId);
+                $photo->delete();
+                $path = public_path().'/img/'.$photo->path;
+                if(file_exists($path)){
+                    unlink($path);
+                }
+            }
+        }
+
+        if($toOverWrite){
+            foreach($toOverWrite as $index){
+                $photo = Photo::find($request->photo_id[$index]);
+                $originalName = $request->photos[$index]->getClientOriginalName();
+                $namePrefix = time();
+                $originalName = "{$namePrefix}-{$originalName}";
+                $request->photos[$index]->move(public_path().'/img/'.$originalName);
+                $photo->update([
+                    'path' => $originalName,
+                ]);
+            }
+        }
+
+        if($newPhotos){
+            foreach($newPhotos as $index){
+                $originalName = $request->photos[$index]->getClientOriginalName();
+                $namePrefix = time();
+                $originalName = "{$namePrefix}-{$originalName}";
+                $request->photos[$index]->move(public_path().'/img/'.$originalName);
+                Photo::create([
+                    'mechanic_id' => $mechanic->id,
+                    'path' => $originalName,
+                ]);
+            }
+        }
+
         return redirect()->route('mechanics-index')->with('ok', 'Mechaniko duomenys dabar jau pakeisti.');
     }
 
