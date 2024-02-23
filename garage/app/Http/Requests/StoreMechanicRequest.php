@@ -40,3 +40,4 @@ class StoreMechanicRequest extends FormRequest
             'surname.max' => 'Pavardė turi būti ne daugiau 64 simbolių',
         ];
     }
+}
