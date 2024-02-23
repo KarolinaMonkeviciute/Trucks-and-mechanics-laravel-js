@@ -8,11 +8,13 @@
 @import "bootstrap/scss/bootstrap";
 
 .modal {
+    z-index: 999;
     display: block;
     background-color: #00000099;
 }
 
 section[data-errors] {
+    z-index: 1000;
     position: fixed;
     top: 50px;
     right: 50px;
@@ -32,5 +34,18 @@ section[data-errors] {
                 border-bottom: none;
             }
         }
+    }
+}
+
+section[data-ok] {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    width: 300px;
+    div {
+        padding: 10px;
+        background-color: darkcyan;
+        color: #ffffff;
+        cursor: pointer;
     }
 }

@@ -9,7 +9,7 @@
                         <h1>Įdarbinti naują mechaniką</h1>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('mechanics-store') }}" method="post">
+                        <form action="{{ route('mechanics-store') }}" method="post" data-photo-create>
                             <div class="form-group mb-3">
                                 <label>Vardas</label>
                                 <input type="text" name="name" class="form-control" value="{{ old('name') }}">
@@ -20,6 +20,17 @@
                                 <input type="text" name="surname" class="form-control" value="{{ old('surname') }}">
                                 <small class="form-text text-muted">Įveskite naujo mechaniko pavardę</small>
                             </div>
+                            <div data-photo-inputs-clone style="display: none;">
+                                <div class="form-group mb-3">
+                                    <label>Nuotrauka</label>
+                                    <div class="d-flex">
+                                        <input type="file" class="form-control">
+                                        <button type="button" class="btn btn-danger">-</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-photo-inputs></div>
+                            <button type="button" data-add-button class="btn btn-secondary">Pridėti nuotrauką</button>
                             <button type="submit" class="btn btn-primary">Įdarbinti</button>
                             @csrf
                         </form>

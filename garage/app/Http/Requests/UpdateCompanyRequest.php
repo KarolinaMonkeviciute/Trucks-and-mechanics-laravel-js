@@ -22,7 +22,19 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|min:2|max:100',
+            'type' => 'required|in:UAB,AB,MB,VŠĮ,IĮ',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Būtina įrašyti įmonės pavadinimą',
+            'name.min' => 'Įmonės pavadinimas ne trumpesnis nei 2 simboliai',
+            'name.max' => 'Įmonės pavadinimas ne ilgesnis nei 100 simbolių',
+            'type.required' => 'Būtina įrašyti įmonės tipą',
+            'type.in' => 'Neegzistuojantis įmonės tipas',
         ];
     }
 }

@@ -1,11 +1,26 @@
 import axios from "axios";
 import "./bootstrap";
+import "./photos";
 
 let sortValue;
 
 const resetErrorBorders = (form) => {
     form.querySelectorAll("input").forEach((input) => {
         input.classList.remove("border", "border-danger");
+    });
+};
+
+const showOk = (message) => {
+    const section = document.querySelector("[data-ok]");
+    const div = document.createElement("div");
+    div.textContent = message;
+    section.appendChild(div);
+    const timerId = setTimeout((_) => {
+        section.innerHTML = "";
+    }, 5000);
+    section.addEventListener("click", (_) => {
+        section.innerHTML = "";
+        clearTimeout(timerId);
     });
 };
 
@@ -55,23 +70,25 @@ const destroyFromList = (url) => {
     axios
         .delete(url)
         .then((response) => {
-            console.log(response.data);
             getList();
+            showOk(response.data.message);
         })
         .catch((error) => {
             console.error(error);
         });
 };
 
-const updateFromList = (url, data) => {
+const updateFromList = (url, data, section) => {
     axios
         .put(url, data)
         .then((response) => {
-            console.log(response.data);
             getList();
+            showOk(response.data.message);
+            section.innerHTML = "";
         })
         .catch((error) => {
             console.error(error);
+            showErrors(error.response.data.errors, section);
         });
 };
 
@@ -116,8 +133,7 @@ const editFromList = (url) => {
                     section.querySelectorAll("input").forEach((input) => {
                         data[input.name] = input.value;
                     });
-                    updateFromList(url, data);
-                    section.innerHTML = "";
+                    updateFromList(url, data, section);
                 });
         })
         .catch((error) => {
@@ -206,8 +222,8 @@ if (document.querySelector("[data-create-form]")) {
         axios
             .post(url, data)
             .then((response) => {
-                console.log(response.data);
                 clearForm(createForm);
+                showOk(response.data.message);
                 getList();
             })
             .catch((error) => {
