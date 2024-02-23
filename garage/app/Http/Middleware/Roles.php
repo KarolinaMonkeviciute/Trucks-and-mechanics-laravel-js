@@ -16,9 +16,15 @@ class Roles
     public function handle(Request $request, Closure $next, string $roles): Response
     {
         $user = $request->user();
-        $roles = explode('|', $roles);
 
-        dd($roles);
+        if(!$user){
+            return redirect()->route('login');
+        }
+
+        if(!in_array($user->role, explode('|', $roles))){
+            return abort(401, 'Unauthorized');
+        }
+
         return $next($request);
     }
 }
