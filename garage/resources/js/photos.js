@@ -1,9 +1,8 @@
 if (document.querySelector("[data-photo-create]")) {
-    const section = document.querySelector("[data-photo-create]");
     const inputs = document.querySelector("[data-photo-inputs]");
-    const addButton = section.querySelector("[data-add-button]");
-
-    addButton.addEventListener("click", () => {
+    const section = document.querySelector("[data-photo-create]");
+    const addButtons = section.querySelector("[data-add-button");
+    addButtons.addEventListener("click", (_) => {
         const input = section
             .querySelector("[data-photo-inputs-clone] div")
             .cloneNode(true);
@@ -18,11 +17,10 @@ if (document.querySelector("[data-photo-create]")) {
 }
 
 if (document.querySelector("[data-photo-edit]")) {
-    const section = document.querySelector("[data-photo-edit]");
     const inputs = document.querySelector("[data-photo-inputs]");
-    const addButton = section.querySelector("[data-add-button]");
-
-    addButton.addEventListener("click", () => {
+    const section = document.querySelector("[data-photo-edit]");
+    const addButtons = section.querySelector("[data-add-button");
+    addButtons.addEventListener("click", (_) => {
         const input = section
             .querySelector("[data-photo-inputs-clone] div")
             .cloneNode(true);
@@ -36,10 +34,9 @@ if (document.querySelector("[data-photo-edit]")) {
     });
 
     const removeButtons = section.querySelectorAll("[data-photo-remove]");
-
     removeButtons.forEach((button) => {
         button.addEventListener("click", (_) => {
-            const input = button.closest("form-group");
+            const input = button.closest(".form-group");
             input.remove();
         });
     });
