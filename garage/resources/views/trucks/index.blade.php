@@ -78,14 +78,14 @@
                             <tr>
                                 <th>Modelis</th>
                                 <th>Numeris</th>
-                                <th>Mechanikas</th>
+                                <th>Mechaniki</th>
                                 <th>Veiksmai</th>
                             </tr>
                             @forelse ($trucks as $truck)
                                 <tr>
                                     <td>{{ $truck->brand }}</td>
                                     <td>{{ $truck->plate }}</td>
-                                    <td>{{ $truck->mechanic->name }} {{ $truck->mechanic->surname }}</td>
+                                    <td>{{ $truck->mechanics()->count() }}</td>
                                     <td>
                                         @if ($role->show('admin'))
                                             <a class="btn btn-success m-1"

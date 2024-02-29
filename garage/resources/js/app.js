@@ -1,6 +1,7 @@
 import axios from "axios";
 import "./bootstrap";
 import "./photos";
+import "./mechanics";
 
 let sortValue;
 
